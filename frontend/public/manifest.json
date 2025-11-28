@@ -1,0 +1,6 @@
+{
+  "name": "SIG PWA",
+  "short_name": "SIG",
+  "start_url": ".",
+  "display": "standalone"
+}

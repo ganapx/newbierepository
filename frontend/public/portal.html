@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal | GIS Website</title>
+
+  <!-- Favicons -->
+  <link href="./icons/favicon/logo-favicon.png" rel="icon" />
+  <link href="./icons/favicon/logo-favicon.png" rel="apple-touch-icon" />
+
+  <!-- Vendor (Bootstrap) -->
+  <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./vendor/bootstrap-icons/bootstrap-icons.css" />
+
+  <!-- Custom Style -->
+  <link rel="stylesheet" href="../src/styles/portal.css" />
+
+  <!-- Custom Script -->
+  <script src="../../scripts/WhenOffline.js"></script>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-white" href="portal.html">
+        <img src="../src/assets/image/logos/logo-earth-transparent2-square-edited.png" alt="Logo" width="40"
+          class="logo hov-logo me-2">
+      </a>
+      <a class="navbar-brand fw-bold text-white logo2" href="portal.html">
+        GIS Website
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        id="hamburgerBtn">
+        <!-- <span class="navbar-toggler-icon"></span> -->
+        <div class="hamburger-btn">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="">Portal &emsp;</a></li>
+          <li class="nav-item"><a class="nav-link" href="">About &emsp;</a></li>
+          <li class="nav-item"><a class="nav-link" href="">Map &emsp;</a></li>
+          <li class="nav-item"><a class="nav-link" href="">Contact &emsp;</a></li>
+          <li>
+            <!-- Mobile Display Search-Box -->
+            <div class="cari-box">
+              <div class="cari-icon"><i class="bi bi-search"></i>
+              </div>
+              <div class="cari-input">
+                <input type="text" id="searchInput" class="input clear-input" name="cari"
+                  placeholder="Search Something..." />
+                <div class="bersih-search">
+                  <button type="button" onclick="clearSearch()">
+                    <img src="../src/assets/image/venubox/close.gif" alt="">
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- End Mobile Display Search-Box -->
+          </li>
+        </ul>
+      </div>
+      <!-- Desktop Dislpay Search-Box -->
+      <div class="search-box">
+        <div class="search-icon"><i class="bi bi-search"></i>
+        </div>
+        <div class="search-input">
+          <input type="text" id="searchInput1" class="input clear-input1" name="search"
+            placeholder="Search Something..." />
+          <div class="clear-search">
+            <button type="button" onclick="clearSearch1()">
+              <img src="../src/assets/image/venubox/close.gif" alt="">
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- End Desktop Display Search-Box -->
+    </div>
+  </nav>
+
+  <!-- Title Page -->
+  <div class="title-header">
+    <span class="page-title">Portal > </span>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <h1>Welcome to the GIS Portal</h1>
+    <p>Explore geographic information, interactive maps, and spatial data in one platform.</p>
+
+    <!-- Card Menu -->
+    <div class="menu-section">
+      <div class="menu-card" onclick="navigateTo('#home')">
+        <i class="bi bi-house-door"></i>
+        <h5>Portal</h5>
+        <p>Halaman utama portal GIS dengan informasi umum.</p>
+      </div>
+      <div class="menu-card" onclick="navigateTo('#about')">
+        <i class="bi bi-info-circle"></i>
+        <h5>About</h5>
+        <p>Pelajari lebih lanjut tentang sistem dan tim pengembang.</p>
+      </div>
+      <div class="menu-card" onclick="goToMap()">
+        <i class="bi bi-geo-alt"></i>
+        <h5>Map</h5>
+        <p>Lihat dan analisis data spasial melalui peta interaktif.</p>
+      </div>
+      <div class="menu-card" onclick="navigateTo('#contact')">
+        <i class="bi bi-envelope"></i>
+        <h5>Contact</h5>
+        <p>Hubungi kami untuk informasi lebih lanjut atau dukungan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p class="mb-0 p-4">© 2025 GIS Web Project — All Rights Reserved</p>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container position-fixed"></div>
+
+  <!-- Vendor JS -->
+  <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom Script -->
+  <script src="../../scripts/SearchBox.js"></script>
+  <script src="../../scripts/CustomHumberger.js"></script>
+
+  <script>
+    // Simpan halaman terakhir selama ONLINE
+    window.addEventListener("online", () => {
+      localStorage.setItem("lastOnlinePage", window.location.href);
+    });
+
+    // Saat loading halaman online, simpan posisinya
+    if (navigator.onLine) {
+      localStorage.setItem("lastOnlinePage", window.location.href);
+    }
+  </script>
+</body>
+
+</html>

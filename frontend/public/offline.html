@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Offline | GIS Website</title>
+
+  <!-- Favicons -->
+  <link rel="icon" href="./icons/favicon/logo-favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/favicon/logo-favicon.png" />
+
+  <!-- Vendor (Bootstrap) -->
+  <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./vendor/bootstrap-icons/bootstrap-icons.css" />
+
+  <!-- Custom Style -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #2c5364);
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 40px;
+    }
+
+    /* === Logo & Animations === */
+    .logo {
+      width: 170px;
+      height: 170px;
+      margin-bottom: 20px;
+      transition: transform 1s ease-in-out;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .fade-out {
+      animation: fadeOut 0.8s ease forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+
+    .btn-retry {
+      border: none;
+      padding: 10px 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      transition: 0.3s;
+    }
+
+    .icon {
+      font-size: 3rem;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+
+      .logo {
+        width: 130px;
+        height: 130px;
+      }
+
+      .btn-retry {
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Logo -->
+  <img src="../src/assets/image/logos/logos.png" alt="Logo" class="logo animate" />
+
+  <!-- Icon + Text -->
+  <i class="bi bi-wifi-off icon"></i>
+
+  <!-- Titles -->
+  <div class="container container-fluid">
+    <h1>Connection's Gone</h1>
+    <p>You Are Offline. Check your internet connection and try again.</p>
+  </div>
+
+  <!-- Buttons -->
+  <div>
+    <button class="btn-retry btn btn-dark" onclick="retryConnection()">
+      <i class="bi bi-arrow-clockwise"></i> Try Again
+    </button>
+  </div>
+
+  <!-- Vendor JS -->
+  <script src="../public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom Script -->
+  <script>
+    function retryConnection() {
+      if (navigator.onLine) {
+        // jika sudah online, arahkan ke halaman utama
+        window.location.href = "./index.html";
+      } else {
+        alert("😢 You are still offline. \nCheck your internet connection first and then try again.");
+      }
+    }
+
+    // Jika kembali online, ambil halaman terakhir dan redirect
+    window.addEventListener("online", () => {
+      const last = localStorage.getItem("lastOnlinePage");
+
+      if (last) {
+        window.location.href = last;
+      } else {
+        window.location.href = "./portal.html"; // fallback
+      }
+    });
+  </script>
+</body>
+
+</html>

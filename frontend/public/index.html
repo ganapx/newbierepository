@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Splash...</title>
+
+  <!-- Favicons -->
+  <link rel="icon" href="./icons/favicon/logo-favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/favicon/logo-favicon.png" />
+
+  <!-- Vendor (Bootstrap) -->
+  <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./vendor/bootstrap-icons/bootstrap-icons.css" />
+
+  <!-- Custom Style -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #2c5364);
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 40px;
+    }
+
+    /* === Progress Bar === */
+    .progress-container {
+      position: relative;
+      width: 80%;
+      max-width: 400px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: #fff;
+      border-radius: 15px;
+      transition: width 0.2s ease-in-out;
+    }
+
+    .progress-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #fff;
+      transition: color 0.2s ease-in-out;
+      pointer-events: none;
+    }
+
+    /* === Logo & Animations === */
+    .logo {
+      width: 170px;
+      height: 170px;
+      margin-bottom: 20px;
+      transition: transform 1s ease-in-out;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .fade-out {
+      animation: fadeOut 0.8s ease forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .logo.animate {
+      animation: pulse 2s infinite;
+    }
+
+    /* === Tooltip & Offline === */
+    .tooltip-top-right {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      z-index: 9999;
+    }
+
+    .offline-message {
+      display: none;
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #ffd;
+    }
+
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+
+      .logo {
+        width: 130px;
+        height: 130px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Tooltip Button -->
+  <div class="tooltip-top-right">
+    <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="tooltip" data-bs-placement="left"
+      title='If not automatically redirected, click <a href="./portal.html" class="text-primary fw-semibold">this link</a>'>
+      <i class="bi bi-info-circle"></i>
+    </button>
+  </div>
+
+  <!-- Logo -->
+  <img src="../src/assets/image/logos/logos.png" alt="Logo" class="logo animate" />
+
+  <!-- Titles -->
+  <div class="container container-fluid">
+    <h1>Geographic Information System Portal</h1>
+    <p>Preparing the Portal page, please wait a moment...</p>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div id="ProgressBar" class="progress-bar"></div>
+    <div id="ProgressText" class="progress-text">0%</div>
+  </div>
+
+  <!-- Offline Fallback Message -->
+  <div class="offline-message" id="OfflineMessage">
+    ⚠️ You are offline. <br />Check your internet connection and try again.
+  </div>
+
+  <!-- Vendor JS -->
+  <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Tooltip setup
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el, {
+        placement: 'left',
+        offset: [0, 7],
+        html: true
+      }));
+
+      // Elements
+      const bar = document.getElementById("ProgressBar");
+      const text = document.getElementById("ProgressText");
+      const offlineMsg = document.getElementById("OfflineMessage");
+      const logo = document.querySelector(".logo");
+
+      let progress = 0;
+      let interval = null;
+
+      function simulateLoading() {
+        clearInterval(interval);
+        progress = 0;
+        bar.style.width = "0%";
+        text.textContent = "0%";
+        text.style.color = "#fff";
+
+        interval = setInterval(() => {
+          if (progress < 100) {
+            progress += Math.random() * 5 + 2;
+            if (progress > 100) progress = 100;
+            bar.style.width = progress + "%";
+            text.textContent = Math.floor(progress) + "%";
+
+            // Ambil posisi bar dan teks
+            const barWidth = bar.clientWidth;
+            const containerWidth = bar.parentElement.clientWidth;
+            const textPosition = containerWidth / 2;
+
+            // Jika progress bar melewati teks → ubah warna teks
+            if (barWidth >= textPosition) {
+              text.style.color = "#2c5364"; // setelah dilewati
+            } else {
+              text.style.color = "#fff"; // sebelum dilewati
+            }
+
+          } else {
+            clearInterval(interval);
+            document.body.classList.add("fade-out");
+
+            setTimeout(() => {
+              if (navigator.onLine) {
+                window.location.href = "./portal.html";
+              } else {
+                offlineMsg.style.display = "block";
+                document.body.classList.remove("fade-out");
+                logo.classList.remove("animate");
+              }
+            }, 800);
+          }
+        }, 120);
+      }
+
+      simulateLoading();
+
+      // Pantau status online/offline
+      window.addEventListener('online', () => {
+        offlineMsg.style.display = "none";
+        logo.classList.add("animate");
+        simulateLoading();
+      });
+
+      window.addEventListener('offline', () => {
+        offlineMsg.style.display = "block";
+        logo.classList.remove("animate");
+        clearInterval(interval);
+      });
+    });
+  </script>
+</body>
+
+</html>
